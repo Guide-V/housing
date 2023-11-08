@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using HousePricing.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<HousePricingContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("HousePricingContext") ?? throw new InvalidOperationException("Connection string 'HousePricingContext' not found.")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("HousePricingContext") ?? throw new InvalidOperationException("Connection string 'HousePricingContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
