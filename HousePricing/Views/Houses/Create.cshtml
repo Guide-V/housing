@@ -1,0 +1,90 @@
+﻿@model HousePricing.Models.House
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>House</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedroomCount" class="control-label"></label>
+                <input asp-for="BedroomCount" class="form-control" />
+                <span asp-validation-for="BedroomCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BathroomCount" class="control-label"></label>
+                <input asp-for="BathroomCount" class="form-control" />
+                <span asp-validation-for="BathroomCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FloorCount" class="control-label"></label>
+                <input asp-for="FloorCount" class="form-control" />
+                <span asp-validation-for="FloorCount" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasBasement" /> @Html.DisplayNameFor(model => model.HasBasement)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Area" class="control-label"></label>
+                <input asp-for="Area" class="form-control" />
+                <span asp-validation-for="Area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="button" id="calculatePriceButton">Predict</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+        <script>
+        $(document).ready(function () {
+            $("#calculatePriceButton").click(function () {
+                // Generate a random price in Thai Baht (between 1 million and 3 million)
+                var minPrice = 1000000; // 1 million Baht
+                var maxPrice = 3000000; // 3 million Baht
+                var randomPrice = Math.floor(Math.random() * (maxPrice - minPrice + 1)) + minPrice;
+
+                // Format the random price with commas and append "Baht"
+                var formattedPrice = new Intl.NumberFormat('th-TH', {
+                    style: 'currency',
+                    currency: 'THB',
+                    maximumFractionDigits: 0
+                }).format(randomPrice);
+
+                // Set the formatted random price in the Price textbox
+                $("#Price").val(formattedPrice);
+            });
+        });
+        </script>
+}
